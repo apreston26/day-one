@@ -14,7 +14,11 @@ public class TemperatureConversion { //if this is spelled wrong use the refracto
   private static final double SCALE_OFFSET = 32;
 
   public static void main(String[] args) {
-   convertInputToFahrenheit(System.in, System.out);
+   System.out.println("Please select either 'f2c' or 'c2f' before you start");
+    if (args.length > 0 && args[0].toLowerCase().equals("f2c")) {
+      convertInputToCelsius(System.in, System.out);
+    } else {
+      convertInputToFahrenheit(System.in, System.out);    }
   }
 
   public static double convertC2F(double celsius) {
@@ -60,4 +64,22 @@ public class TemperatureConversion { //if this is spelled wrong use the refracto
     }
 
   }
+
+  public static void convertInputToCelsius(InputStream input, PrintStream output) {
+    Scanner scanner = new Scanner(input); //reads the bits from the input stream and then parses them to become a double
+    while(true) { //how to make an infinite loop
+      try { //this tries to run the code and if it gets an error it goes to the catch
+        double fahrenheit = scanner.nextDouble();
+        double celsius = convertF2C(fahrenheit);
+        output.println(celsius);
+      } catch (InputMismatchException e) {
+        System.err.printf("Unable to parse %s as double.%n", scanner.next()); //% = placeholder and s means the first thing after the comma is treated as a string and put in the placeholder and %n is new line
+      } catch (NoSuchElementException e) {
+        System.out.println("Hope I helped! =)");
+        break;
+      }
+    }
+
+  }
+
 }
