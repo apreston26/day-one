@@ -1,9 +1,14 @@
 package edu.cnm.deepdive;
+
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.Scanner;
+
 // ^^ must be the first line no matter what
 public class TemperatureConversion { //if this is spelled wrong use the refractor tool
 
   private static final double CELSIUS_TO_FAHRENHEIT_SCALE = 9.0 / 5;
-  private static final double FAHRENHEIT_TO_CELSIUS_SCALE = 1/CELSIUS_TO_FAHRENHEIT_SCALE;
+  private static final double FAHRENHEIT_TO_CELSIUS_SCALE = 1 / CELSIUS_TO_FAHRENHEIT_SCALE;
   private static final double SCALE_OFFSET = 32;
 
   public static void main(String[] args) {
@@ -45,5 +50,15 @@ public class TemperatureConversion { //if this is spelled wrong use the refracto
       celsiusTemperatures[i] = celsius;
     }
     return celsiusTemperatures;
+  }
+
+  public static void convertInputToFahrenheit(InputStream input, PrintStream output) {
+    Scanner scanner = new Scanner(input);
+    while(true) {
+      double celsius = scanner.nextDouble();
+      double fahrenheit = convertC2F(celsius);
+      output.println(fahrenheit);
+    }
+
   }
 }
