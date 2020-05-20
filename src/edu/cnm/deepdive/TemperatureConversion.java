@@ -2,6 +2,8 @@ package edu.cnm.deepdive;
 
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 // ^^ must be the first line no matter what
@@ -12,17 +14,7 @@ public class TemperatureConversion { //if this is spelled wrong use the refracto
   private static final double SCALE_OFFSET = 32;
 
   public static void main(String[] args) {
-    if (args.length == 0) {
-      double tempCelsius = 100;
-      double tempFahrenheit = 32;
-      System.out.println("Celsius " + tempCelsius + " = " + convertC2F(tempCelsius) + " Fahrenheit");
-      System.out.println("Fahrenheit " + tempFahrenheit + " = " + convertF2C(tempFahrenheit) + " Celsius");
-    } else {
-      for (int i = 0; i < args.length; i++) {
-        double tempCelsius = Double.parseDouble(args[i]); // parsing changes a string to something more meaningful in this case a double
-        System.out.println("Celsius " + tempCelsius + " = " + convertC2F(tempCelsius) + " Fahrenheit"); // this is different than above as any small line out of brackets won't transfer
-      }
-    }
+   convertInputToFahrenheit(System.in, System.out);
   }
 
   public static double convertC2F(double celsius) {
@@ -53,11 +45,18 @@ public class TemperatureConversion { //if this is spelled wrong use the refracto
   }
 
   public static void convertInputToFahrenheit(InputStream input, PrintStream output) {
-    Scanner scanner = new Scanner(input);
-    while(true) {
-      double celsius = scanner.nextDouble();
-      double fahrenheit = convertC2F(celsius);
-      output.println(fahrenheit);
+    Scanner scanner = new Scanner(input); //reads the bits from the input stream and then parses them to become a double
+    while(true) { //how to make an infinite loop
+      try { //this tries to run the code and if it gets an error it goes to the catch
+        double celsius = scanner.nextDouble();
+        double fahrenheit = convertC2F(celsius);
+        output.println(fahrenheit);
+      } catch (InputMismatchException e) {
+        System.err.printf("Unable to parse %s as double.%n", scanner.next()); //% = placeholder and s means the first thing after the comma is treated as a string and put in the placeholder and %n is new line
+      } catch (NoSuchElementException e) {
+        System.out.println("Hope I helped! =)");
+        break;
+      }
     }
 
   }
